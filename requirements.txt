@@ -1,0 +1,10 @@
+torch==0.4.0
+tensorflow>=1.3.0
+pysptk >= 0.1.9
+tensorboardX
+librosa
+tqdm
+matplotlib
+numpy
+scipy
+
