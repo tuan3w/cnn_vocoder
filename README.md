@@ -45,7 +45,7 @@ $ python train.py --help
 ## Generate audio from spectrogram
 - Generate spectrogram from audio
 ```bash
-$ python gen_mel.py -i sample.wav -o out.npz
+$ python gen_spec.py -i sample.wav -o out.npz
 ```
 - Generate audio from spectrogram
 
