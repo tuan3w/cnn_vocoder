@@ -39,9 +39,13 @@ def compute_loss(pred, target):
         pred (Tensor): B x T, predicted wavs
         target (Tensor): B x T, target wavs
     """
-    stft_pred, _, _= compute_stft(pred, n_fft=2048, win_length=1024, hop_length=256) 
-    stft_target, _, _ = compute_stft(target, n_fft=2048, win_length=1024, hop_length=256) 
+    stft_pred, _, _= compute_stft(pred, n_fft=2048, win_length=1024, hop_length=256)
+    stft_target, _, _ = compute_stft(target, n_fft=2048, win_length=1024, hop_length=256)
     l1_loss = nn.L1Loss()
 
-    loss = l1_loss(torch.log(stft_pred + 1e-8), torch.log(stft_target + 1e-8))
+    log_stft_pred = torch.log(stft_pred + 1e-8)
+    log_stft_target = torch.log(stft_target + 1e-8)
+    l1 = l1_loss(log_stft_pred, log_stft_target)
+    l2 = l1_loss(log_stft_pred[:, :, :500], log_stft_target[:, :,:500])
+    loss = l1 + l2
     return loss
