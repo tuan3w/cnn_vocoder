@@ -47,5 +47,6 @@ def compute_loss(pred, target):
     log_stft_target = torch.log(stft_target + 1e-8)
     l1 = l1_loss(log_stft_pred, log_stft_target)
     l2 = l1_loss(log_stft_pred[:, :, :500], log_stft_target[:, :,:500])
-    loss = l1 + l2
-    return loss
+    l3 = l1_loss(stft_pred[:,:,:500], stft_target[:,:,:500])
+    loss = l1 + l2 + l3
+    return loss, l1, l2, l3

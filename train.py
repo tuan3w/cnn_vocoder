@@ -25,26 +25,12 @@ np.random.seed(hparams.seed)
 torch.manual_seed(hparams.seed)
 torch.cuda.manual_seed(hparams.seed)
 
-
-def add_log(writer, loss, p_loss, l_p_loss, phrase_loss, p1, grad_norm, steps):
+def add_log_v2(writer, loss, l1, l2, l3, steps):
     writer.add_scalar("loss", loss, steps)
-    writer.add_scalar("power_loss", p_loss, steps)
-    writer.add_scalar("low_freq_power_loss", p_loss, steps)
-    writer.add_histogram("loss_hist", p1, steps)
-    writer.add_scalar("phrase_loss", phrase_loss, steps)
-    # writer.add_scalar("relative_power_loss", r_p_loss, steps)
-    # writer.add_scalar("relative_power_loss_time", r_p_loss2, steps)
-    writer.add_scalar("grad_norm", grad_norm, steps)
-
-
-def add_log_v2(writer, loss, spec_loss, mel_loss, spec_loss_low, stft_loss, steps, prefix):
-    writer.add_scalar("loss", loss, steps)
-    writer.add_scalar("loss.spec", spec_loss, steps)
-    writer.add_scalar("loss.spec_low", spec_loss_low, steps)
-    writer.add_scalar("loss.mel_loss", mel_loss, steps)
-    writer.add_scalar("loss.stft_loss", stft_loss, steps)
+    writer.add_scalar("loss.log_stft", l1, steps)
+    writer.add_scalar("loss.log_stft_low_freqs", l2, steps)
+    writer.add_scalar("loss.stft_low_freqs", l3, steps)
     # writer.add_scalar("grad_norm", grad_norm, steps)
-
 
 def add_spec_sample(writer, mel_target, mel_predicted, steps):
     writer.add_image(
@@ -115,7 +101,7 @@ def train(args):
             # import pdb; pdb.set_trace()
             # loss, p_loss, low_p_loss, phrase_loss, p1  = compute_loss(predict, wav)
             # pre_loss, pre_p1, pre_p2 = compute_loss_v2(pre_predict, wav)
-            post_loss, spec_loss, mel_loss, spec_loss_low, stft_loss = compute_loss_v2(predict, wav)
+            post_loss, l1, l2, l3 = compute_loss_v2(predict, wav)
             loss = post_loss
             print('Step: {:8d}, Loss = {:8.4f}, post_loss = {:8.4f}, pre_loss = {:8.4f}'.format(steps, loss, post_loss, post_loss))
             if torch.isnan(loss).item() != 0:
@@ -129,7 +115,7 @@ def train(args):
 
             # log training
             # add_log(writer, loss, p_loss, low_p_loss, phrase_loss, p1, grad_norm, steps)
-            add_log_v2(writer, loss, spec_loss, mel_loss, spec_loss_low, stft_loss, steps, prefix="pre")
+            add_log(writer, loss, l1, l2, l3, steps)
 
             if steps > 0 and steps % hparams.checkpoint_interval == 0:
                 checkpoint_path = '{}/checkpoint_{}'.format(
