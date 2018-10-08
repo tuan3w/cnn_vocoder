@@ -4,7 +4,7 @@
 This work is inspired from m-cnn model described in [Fast Spectrogram Inversion using Multi-head Convolutional Neural Networks](https://arxiv.org/abs/1808.06719).
 The authors show that even a simple upsampling networks is enough to synthesis waveform from spectrogram/mel-spectrogram.
 
-In this repo, I use spectrogram feature for training model because it contains more information than mel-spectrogram feature. However, because the transformation from spectrogram to mel-spectrogram is just a liner projection, so basically, you can train a simple network predict spectrogram from mel-spectrogram. You also can change parameters to be able to train a vocoder from mel-spectrogram feature too.
+In this repo, I use spectrogram feature for training model because it contains more information than mel-spectrogram feature. However, because the transformation from spectrogram to mel-spectrogram is just a linear projection, so basically, you can train a simple network predict spectrogram from mel-spectrogram. You also can change parameters to be able to train a vocoder from mel-spectrogram feature too.
 
 ## Architecture notes
 
