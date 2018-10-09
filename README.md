@@ -6,6 +6,8 @@ The authors show that even a simple upsampling networks is enough to synthesis w
 
 In this repo, I use spectrogram feature for training model because it contains more information than mel-spectrogram feature. However, because the transformation from spectrogram to mel-spectrogram is just a linear projection, so basically, you can train a simple network predict spectrogram from mel-spectrogram. You also can change parameters to be able to train a vocoder from mel-spectrogram feature too.
 
+## [Sample Audios](https://soundcloud.com/nguyen-duc-tuan-80422561/sets/cnn-vocoder-samples)
+
 ## Architecture notes
 
 Compare with m-cnn, my proposed network have some differences:
@@ -54,6 +56,9 @@ $ python synthesis.py --model_path path/to/checkpoint \
                       --spec_path out.npz \
                       --out_path out.wav
 ```
+
+## Pretrained model
+You can get my pre-trained model [here](https://drive.google.com/drive/folders/1aUwC8PFXnpWJuAKlhXP3HsOLesNgELn-?usp=sharing).
 
 ## Acknowledgements
 This implementation uses code from [NVIDIA](https://github.com/NVIDIA), [Ryuichi Yamamoto](https://github.com/r9y9), [Keith Ito](https://github.com/keithito) as described in my code.

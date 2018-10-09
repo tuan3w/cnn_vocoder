@@ -12,7 +12,7 @@ import audio
 import librosa
 from data import MelDataset
 from hparams import hparams, hparams_debug_string
-from loss import compute_loss, compute_loss_v2
+from loss import compute_loss
 from model import CNNVocoder
 from tensorboardX import SummaryWriter
 from tqdm import tqdm
@@ -25,7 +25,7 @@ np.random.seed(hparams.seed)
 torch.manual_seed(hparams.seed)
 torch.cuda.manual_seed(hparams.seed)
 
-def add_log_v2(writer, loss, l1, l2, l3, steps):
+def add_log(writer, loss, l1, l2, l3, steps):
     writer.add_scalar("loss", loss, steps)
     writer.add_scalar("loss.log_stft", l1, steps)
     writer.add_scalar("loss.log_stft_low_freqs", l2, steps)
@@ -98,10 +98,7 @@ def train(args):
             wav, spec = batch[0].cuda(), batch[1].cuda()
             optimizer.zero_grad()
             pre_predict, predict = model(spec)
-            # import pdb; pdb.set_trace()
-            # loss, p_loss, low_p_loss, phrase_loss, p1  = compute_loss(predict, wav)
-            # pre_loss, pre_p1, pre_p2 = compute_loss_v2(pre_predict, wav)
-            post_loss, l1, l2, l3 = compute_loss_v2(predict, wav)
+            post_loss, l1, l2, l3 = compute_loss(predict, wav)
             loss = post_loss
             print('Step: {:8d}, Loss = {:8.4f}, post_loss = {:8.4f}, pre_loss = {:8.4f}'.format(steps, loss, post_loss, post_loss))
             if torch.isnan(loss).item() != 0:
