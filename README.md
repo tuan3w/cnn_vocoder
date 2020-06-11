@@ -1,4 +1,5 @@
 # CNNVocoder
+NOTE: I'm no longer working on this project. See [#9](https://github.com/tuan3w/cnn_vocoder/issues/9#issuecomment-642700118).
 ## A CNN-based vocoder.
 
 This work is inspired from m-cnn model described in [Fast Spectrogram Inversion using Multi-head Convolutional Neural Networks](https://arxiv.org/abs/1808.06719).
